@@ -1,0 +1,34 @@
+import os
+
+def crear_fitxers(fitxer_entrada, directori_sortida):
+    with open(fitxer_entrada, 'r') as fitxer:
+        paraules = fitxer.read().split()
+    if not os.path.exists(directori_sortida):
+        os.makedirs(directori_sortida)
+
+    for longitud in [2, 4, 6, 8, 9]:
+        fitxer_sortida = os.path.join(directori_sortida, f"paraules-{longitud}.txt")
+        with open(fitxer_sortida, 'w') as fitxer:
+            paraules_seleccionades = [paraula for paraula in paraules if len([char for char in paraula if char.isalnum()]) == longitud]
+            fitxer.write('\n'.join(paraules_seleccionades))
+
+fitxer_entrada = 'paraules.txt'
+directori_sortida = 'Javi - SUSANA AQUI ESTAN ELS FITXERS'
+crear_fitxers(fitxer_entrada, directori_sortida)
+
+def numero_vocals(paraula):
+    vocals = "aeiouAEIOU"
+    quantitat_vocals = sum(1 for lletra in paraula if lletra in vocals)
+    return quantitat_vocals
+def crear_copia_vocals(fitxer_entrada, fitxer_sortida):
+    with open(fitxer_entrada, 'r') as fitxer:
+        paraules = fitxer.read().split()
+
+    with open(fitxer_sortida, 'w') as fitxer:
+        for paraula in paraules:
+            quantitat_vocals = numero_vocals(paraula)
+            fitxer.write(f"{quantitat_vocals}\t{paraula}\n")
+
+input_file = 'paraules.txt'
+output_file = 'paraulesquantitatocals.txt'
+crear_copia_vocals(input_file, output_file)
